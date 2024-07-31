@@ -34,77 +34,9 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        UsbMassStorageDevice[] devices = UsbMassStorageDevice.getMassStorageDevices(this );
-        UsbMassStorageDevice device=devices[0];
-        try {
-            device.init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-       UsbFile root = device.getPartitions().get(0).getFileSystem().getRootDirectory();
-        File folder= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File destinationFile = new File(folder,"assignment");
-        destinationFile.mkdir();
-        Log.d(TAG,destinationFile.toString());
 
-        try {
-            UsbFile[] files = root.listFiles();
-            new Thread(){
-                @Override
-                public void run() {
-                    copyFiles(files,destinationFile);
-                }
-            }.start();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void copyFiles(UsbFile[] files, File destinationFile) {
-        for(UsbFile file: files) {
-            Log.d(TAG, file.getName());
-            if(!file.isDirectory()) {
-                InputStream is = new UsbFileInputStream(file);
-                File dfile = new File(destinationFile,file.getName());
-                if (file.getName().endsWith("*.crt")){
-                    return;
-                }
-                try {
-                    writeToFile(is,dfile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
 
-    private void writeToFile(InputStream inputStream, File file) throws IOException {
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
