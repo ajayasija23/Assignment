@@ -28,23 +28,9 @@
             <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
-        <activity
-            android:name=".MainActivity2"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            >
-
-        </activity>
 
 
-       <!-- <receiver android:enabled="true" android:exported="true"
-            android:name=".UsbReceiver">
-            <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/>
-            </intent-filter>
-            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-                android:resource="@xml/device_filter" />
-        </receiver>-->
+
         <provider
             android:name=".UsbDocumentProvider"
             android:authorities="me.jahnen.libaums.storageprovider.documents"
@@ -57,10 +43,6 @@
             </intent-filter>
         </provider>
 
-        <service android:name="com.asija.assignment.TransferService"
-            android:exported="true">
-
-        </service>
 
     </application>
 
